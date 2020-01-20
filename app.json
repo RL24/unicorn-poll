@@ -1,0 +1,6 @@
+{
+  "name": "Unicorn Poll",
+  "description": "A Java poll Slack plugin",
+  "image": "heroku/gradle",
+  "addons": []
+}

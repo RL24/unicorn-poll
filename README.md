@@ -1,2 +1,2 @@
-# unicorn-poll
+# Unicorn Poll
 A Java poll plugin for Slack
