@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
-@Controller
+@RestController
 @SpringBootApplication
 public class Server implements EnvironmentHelper {
 
@@ -49,9 +50,9 @@ public class Server implements EnvironmentHelper {
 //        LOG.info("Listening on port " + getPort());
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping("/")
     private String index() {
-        return "yes";
+        return "Hello, World";
     }
 
 }
