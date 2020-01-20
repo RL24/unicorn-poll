@@ -1,1 +1,1 @@
-web: java -jar build/libs/unicorn-poll-0.0.1.jar
+web: java -jar -Dserver.port=$PORT build/libs/unicorn-poll-0.0.1.jar
