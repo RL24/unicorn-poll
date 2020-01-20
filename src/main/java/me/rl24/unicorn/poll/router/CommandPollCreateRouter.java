@@ -16,14 +16,21 @@ import me.rl24.unicorn.poll.util.request.RequestHeader;
 import me.rl24.unicorn.poll.util.request.RequestMethod;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @Router("/upoll/create")
 public class CommandPollCreateRouter implements HttpHandler, GsonHelper, EnvironmentHelper {
 
+    private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
+
     @Override
     public void handle(HttpExchange httpExchange) {
+        LOGGER.info("Received request at /upoll/create");
         try {
             CommandPollCreatePayload requestPayload = PayloadHelper.readPayload(httpExchange.getRequestBody(), CommandPollCreatePayload.class);
+            LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));
+
+            LOGGER.info("Sending 200 response");
             httpExchange.sendResponseHeaders(200, 0);
             new HttpRequest().sendResponse(httpExchange.getResponseBody());
 

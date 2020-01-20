@@ -8,8 +8,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.logging.Logger;
 
 public class HttpRequest implements GsonHelper {
+
+    private static final Logger LOGGER = Logger.getLogger(HttpRequest.class.getSimpleName());
 
     private HttpURLConnection connection;
     private RequestMethod requestMethod;
@@ -42,13 +45,16 @@ public class HttpRequest implements GsonHelper {
     }
 
     public <T> T sendRequest(Class<T> retType) throws IOException {
+        LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, connection.getURL(), payload));
         if (requestMethod.isDoOutput() && payload != null) {
             connection.setDoOutput(true);
 
             sendResponse(connection.getOutputStream());
         }
 
-        return PayloadHelper.readPayload(connection.getInputStream(), retType);
+        T obj = PayloadHelper.readPayload(connection.getInputStream(), retType);
+        LOGGER.info(String.format("Reading response from request: %s", GSON.toJson(obj)));
+        return obj;
     }
 
     public void sendResponse(OutputStream output) throws IOException {
