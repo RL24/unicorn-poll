@@ -3,6 +3,7 @@ package me.rl24.unicorn.poll;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import me.rl24.unicorn.poll.router.Router;
+import me.rl24.unicorn.poll.util.EnvironmentHelper;
 import org.reflections.Reflections;
 
 import java.io.IOException;
@@ -12,14 +13,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
-public class Server {
+public class Server implements EnvironmentHelper {
 
     private static final Logger LOG = Logger.getLogger(Server.class.getName());
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(4);
 
     public Server() throws IOException {
         LOG.info("Starting server...");
-        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 3000), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", getPort()), 0);
         server.setExecutor(EXECUTOR);
 
         LOG.info("Creating routers...");
@@ -39,7 +40,7 @@ public class Server {
         });
 
         server.start();
-        LOG.info("Listening on port 3000");
+        LOG.info("Listening on port " + getPort());
     }
 
 }
