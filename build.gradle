@@ -11,11 +11,9 @@ buildscript {
     }
 }
 
-plugins {
-    id 'java'
-    id 'org.springframework.boot'
-    id 'io.spring.dependency-management'
-}
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group 'me.rl24'
 version '0.0.1'
