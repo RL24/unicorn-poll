@@ -1,5 +1,7 @@
 package me.rl24.unicorn.poll;
 
+import org.springframework.boot.SpringApplication;
+
 import java.io.IOException;
 
 public class Main {
@@ -9,7 +11,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        new Server();
+        SpringApplication.run(Server.class, args);
     }
 
 }

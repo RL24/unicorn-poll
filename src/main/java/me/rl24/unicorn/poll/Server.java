@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpServer;
 import me.rl24.unicorn.poll.router.Router;
 import me.rl24.unicorn.poll.util.EnvironmentHelper;
 import org.reflections.Reflections;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
+@SpringBootApplication
 public class Server implements EnvironmentHelper {
 
     private static final Logger LOG = Logger.getLogger(Server.class.getName());
