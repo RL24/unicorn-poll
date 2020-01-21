@@ -1,7 +1,5 @@
 package me.rl24.unicorn.poll.router;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import me.rl24.unicorn.poll.payload.CommandPollCreatePayload;
 import me.rl24.unicorn.poll.payload.CreatePollOpenRequestPayload;
 import me.rl24.unicorn.poll.payload.CreatePollOpenResponsePayload;
@@ -10,12 +8,12 @@ import me.rl24.unicorn.poll.payload.bean.Text;
 import me.rl24.unicorn.poll.payload.bean.View;
 import me.rl24.unicorn.poll.util.EnvironmentHelper;
 import me.rl24.unicorn.poll.util.GsonHelper;
-import me.rl24.unicorn.poll.util.PayloadHelper;
 import me.rl24.unicorn.poll.util.request.HttpRequest;
 import me.rl24.unicorn.poll.util.request.RequestHeader;
-import me.rl24.unicorn.poll.util.request.RequestMethod;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -26,7 +24,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
 
     private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
 
-    @PostMapping("/upoll/create")
+    @RequestMapping(value = "/upoll/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String handle(@RequestBody CommandPollCreatePayload requestPayload) {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));

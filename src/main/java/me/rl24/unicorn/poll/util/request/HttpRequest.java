@@ -2,6 +2,7 @@ package me.rl24.unicorn.poll.util.request;
 
 import me.rl24.unicorn.poll.util.GsonHelper;
 import me.rl24.unicorn.poll.util.PayloadHelper;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -46,7 +47,7 @@ public class HttpRequest implements GsonHelper {
 
     public <T> T sendRequest(Class<T> retType) throws IOException {
         LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, connection.getURL(), payload));
-        if (requestMethod.isDoOutput() && payload != null) {
+        if (payload != null && connection.getOutputStream() != null) {
             connection.setDoOutput(true);
 
             sendResponse(connection.getOutputStream());
