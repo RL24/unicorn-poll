@@ -1,5 +1,6 @@
 package me.rl24.unicorn.poll.router;
 
+import me.rl24.unicorn.poll.payload.UsersInfoRequestPayload;
 import me.rl24.unicorn.poll.payload.UsersInfoResponsePayload;
 import me.rl24.unicorn.poll.payload.ViewsOpenRequestPayload;
 import me.rl24.unicorn.poll.payload.ViewsOpenResponsePayload;
@@ -31,12 +32,17 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(paramMap)));
         try {
+            UsersInfoRequestPayload usersInfoRequestPayload = new UsersInfoRequestPayload()
+                    .setToken(getSlackToken())
+                    .setUser(paramMap.getFirst("user_id"));
+
             HttpRequest usersInfoRequest = new HttpRequest()
                     .setUrl("https://slack.com/api/users.info")
                     .setMethod(RequestMethod.POST)
                     .setHeader(RequestHeader.CONTENT_TYPE, "application/x-www-form-urlencoded")
                     .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
-                    .setPayload(String.format("token=%s&user=%s", getSlackToken(), paramMap.getFirst("user_id")), true);
+                    .setPayload(usersInfoRequestPayload, true);
+
             UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
             LOGGER.info(String.format("User creating poll: %s", GSON.toJson(usersInfoResponsePayload)));
 
