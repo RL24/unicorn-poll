@@ -11,11 +11,7 @@ import me.rl24.unicorn.poll.util.GsonHelper;
 import me.rl24.unicorn.poll.util.request.HttpRequest;
 import me.rl24.unicorn.poll.util.request.RequestHeader;
 import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,8 +23,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
     private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
 
     @RequestMapping(value = "/upoll/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseBody
-    public String handle(MultiValueMap requestPayload) {
+    public String handle(@RequestBody Map<String, Object> requestPayload) {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));
 //        try {
