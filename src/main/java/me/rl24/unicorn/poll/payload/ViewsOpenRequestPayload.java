@@ -3,7 +3,7 @@ package me.rl24.unicorn.poll.payload;
 import com.google.gson.annotations.SerializedName;
 import me.rl24.unicorn.poll.payload.bean.View;
 
-public class CreatePollOpenRequestPayload {
+public class ViewsOpenRequestPayload {
 
     @SerializedName("trigger_id")
     private String triggerId;
@@ -13,7 +13,7 @@ public class CreatePollOpenRequestPayload {
         return triggerId;
     }
 
-    public CreatePollOpenRequestPayload setTriggerId(String triggerId) {
+    public ViewsOpenRequestPayload setTriggerId(String triggerId) {
         this.triggerId = triggerId;
         return this;
     }
@@ -22,7 +22,7 @@ public class CreatePollOpenRequestPayload {
         return view;
     }
 
-    public CreatePollOpenRequestPayload setView(View view) {
+    public ViewsOpenRequestPayload setView(View view) {
         this.view = view;
         return this;
     }

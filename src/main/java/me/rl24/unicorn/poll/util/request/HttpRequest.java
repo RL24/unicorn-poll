@@ -2,13 +2,18 @@ package me.rl24.unicorn.poll.util.request;
 
 import me.rl24.unicorn.poll.util.GsonHelper;
 import me.rl24.unicorn.poll.util.PayloadHelper;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class HttpRequest implements GsonHelper {
@@ -40,14 +45,27 @@ public class HttpRequest implements GsonHelper {
         return this;
     }
 
-    public HttpRequest setPayload(Object obj) {
-        this.payload = GSON.toJson(obj);
+    public HttpRequest setPayload(Object obj) throws IllegalAccessException {
+        return setPayload(obj, false);
+    }
+
+    public HttpRequest setPayload(Object obj, boolean asParams) throws IllegalAccessException {
+        if (asParams) {
+            Set<String> params = new HashSet<>();
+            for (Field field : obj.getClass().getDeclaredFields()) {
+                boolean accessible = field.isAccessible();
+                field.setAccessible(true);
+                params.add(String.format("%s=%s", field.getName(), field.get(obj)));
+                field.setAccessible(accessible);
+            }
+            this.payload = Strings.join(params, '&');
+        } else this.payload = GSON.toJson(obj);
         return this;
     }
 
     public <T> T sendRequest(Class<T> retType) throws IOException {
         LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, connection.getURL(), payload));
-        if (payload != null && requestMethod != RequestMethod.GET) {
+        if (payload != null) {
             connection.setDoOutput(true);
 
             sendResponse(connection.getOutputStream());

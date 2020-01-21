@@ -1,7 +1,8 @@
 package me.rl24.unicorn.poll.router;
 
-import me.rl24.unicorn.poll.payload.CreatePollOpenRequestPayload;
-import me.rl24.unicorn.poll.payload.CreatePollOpenResponsePayload;
+import me.rl24.unicorn.poll.payload.UsersInfoResponsePayload;
+import me.rl24.unicorn.poll.payload.ViewsOpenRequestPayload;
+import me.rl24.unicorn.poll.payload.ViewsOpenResponsePayload;
 import me.rl24.unicorn.poll.payload.bean.Block;
 import me.rl24.unicorn.poll.payload.bean.Element;
 import me.rl24.unicorn.poll.payload.bean.Text;
@@ -30,6 +31,14 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(paramMap)));
         try {
+            HttpRequest usersInfoRequest = new HttpRequest()
+                    .setUrl("https://slack.com/api/users.info")
+                    .setMethod(RequestMethod.POST)
+                    .setHeader(RequestHeader.CONTENT_TYPE, "application/x-www-form-urlencoded")
+                    .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
+                    .setPayload(String.format("token=%s&user=%s", getSlackToken(), paramMap.getFirst("user_id")), true);
+            UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
+
             View view = new View()
                     .setType("modal")
                     .setTitle(new Text()
@@ -49,7 +58,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                                     .setType("section")
                                     .setText(new Text()
                                             .setType("plain_text")
-                                            .setText(":wave: Hey Kat!\n\nFill out the following form to create a Poll")
+                                            .setText(String.format(":wave: Hey %s!\n\nFill out the following form to create a Poll", usersInfoResponsePayload.getUser().getProfile().getRealNameNormalized()))
                                             .setEmoji(true)),
                             new Block().setType("divider"),
                             new Block()
@@ -63,18 +72,18 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                                             .setMultiline(false))
                     });
 
-            CreatePollOpenRequestPayload payload = new CreatePollOpenRequestPayload()
+            ViewsOpenRequestPayload viewsOpenRequestPayload = new ViewsOpenRequestPayload()
                     .setTriggerId(paramMap.getFirst("trigger_id"))
                     .setView(view);
 
-            HttpRequest request = new HttpRequest()
+            HttpRequest viewsOpenRequest = new HttpRequest()
                     .setUrl("https://slack.com/api/views.open")
                     .setMethod(RequestMethod.POST)
                     .setHeader(RequestHeader.CONTENT_TYPE, "application/json; charset=utf-8")
                     .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
-                    .setPayload(payload);
-            CreatePollOpenResponsePayload openResponsePayload = request.sendRequest(CreatePollOpenResponsePayload.class);
-        } catch (IOException e) {
+                    .setPayload(viewsOpenRequestPayload);
+            ViewsOpenResponsePayload openResponsePayload = viewsOpenRequest.sendRequest(ViewsOpenResponsePayload.class);
+        } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return "";
