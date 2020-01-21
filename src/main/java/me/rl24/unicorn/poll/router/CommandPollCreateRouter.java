@@ -15,6 +15,7 @@ import me.rl24.unicorn.poll.util.request.HttpRequest;
 import me.rl24.unicorn.poll.util.request.RequestHeader;
 import me.rl24.unicorn.poll.util.request.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
     private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
 
     @PostMapping("/upoll/create")
-    public String handle(CommandPollCreatePayload requestPayload) {
+    public String handle(@RequestBody CommandPollCreatePayload requestPayload) {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));
         try {
