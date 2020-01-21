@@ -48,6 +48,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
 
             View view = new View()
                     .setType("modal")
+                    .setCallbackId("test-callback-id")
                     .setTitle(new Text()
                             .setType("plain_text")
                             .setText("Create a Poll")
