@@ -58,14 +58,15 @@ public class HttpRequest implements GsonHelper {
     }
 
     public <T> T sendRequest(Class<T> retType) throws IOException, URISyntaxException {
-
         Map<String, Object> map = GSON.fromJson(payload, new TypeToken<Map<String, Object>>(){}.getType());
         String payloadQuery = map.entrySet().stream().map((entry) -> String.format("%s=%s", entry.getKey(), entry.getValue())).collect(Collectors.joining("&"));
         URI uri = new URI(url);
-        if (payloadAsParameters)
+        if (payloadAsParameters) {
             uri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), uri.getQuery() == null ? payloadQuery : String.format("%s&%s", uri.getQuery(), payloadQuery), uri.getFragment());
+            payload = "";
+        }
 
-        LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, uri, payload));
+        LOGGER.info(String.format("Sending '%s' request to '%s', with payload '%s'", requestMethod, uri, payload));
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
         if (payload != null) {
             connection.setDoOutput(true);
