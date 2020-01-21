@@ -35,7 +35,7 @@ public class PayloadHelper implements GsonHelper {
             }
         }
 
-        if (cls == null) LOGGER.warning(String.format("Failed to provide bean class, payload: %s", job));
+        LOGGER.info("JOB: " + job.getAsString());
         return GSON.fromJson(job, cls);
     }
 
