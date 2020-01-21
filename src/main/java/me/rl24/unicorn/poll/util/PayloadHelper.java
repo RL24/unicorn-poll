@@ -21,6 +21,7 @@ public class PayloadHelper implements GsonHelper {
             sb.append(line);
 
         String compiled = sb.toString();
+        LOGGER.info(compiled);
 
         JsonObject job = new JsonObject();
         if (!compiled.isEmpty()) {
