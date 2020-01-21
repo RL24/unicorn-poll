@@ -15,10 +15,6 @@ public class View {
     private String privateMetadata;
     @SerializedName("callback_id")
     private String callbackId;
-    @SerializedName("clear_on_close")
-    private boolean clearOnClose;
-    @SerializedName("notify_on_close")
-    private boolean notifyOnClose;
     @SerializedName("previous_view_id")
     private Object previousViewId;
     @SerializedName("root_view_id")
@@ -128,24 +124,6 @@ public class View {
 
     public View setCallbackId(String callbackId) {
         this.callbackId = callbackId;
-        return this;
-    }
-
-    public boolean isClearOnClose() {
-        return clearOnClose;
-    }
-
-    public View setClearOnClose(boolean clearOnClose) {
-        this.clearOnClose = clearOnClose;
-        return this;
-    }
-
-    public boolean isNotifyOnClose() {
-        return notifyOnClose;
-    }
-
-    public View setNotifyOnClose(boolean notifyOnClose) {
-        this.notifyOnClose = notifyOnClose;
         return this;
     }
 
