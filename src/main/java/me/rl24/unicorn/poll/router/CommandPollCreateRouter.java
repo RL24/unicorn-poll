@@ -22,8 +22,8 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
 
     private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
 
-    @RequestMapping(value = "/upoll/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String handle(@RequestBody Map<String, Object> requestPayload) {
+    @RequestMapping(value = "/upoll/create", method = RequestMethod.POST)
+    public String handle(Map<String, Object> requestPayload) {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));
 //        try {
