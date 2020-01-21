@@ -10,7 +10,7 @@ public class CommandPollCreatePayload {
     @SerializedName("trigger_id") private String triggerId;
     @SerializedName("team_domain") private String teamDomain;
     @SerializedName("team_id") private String teamId;
-    private boolean text;
+    private String text;
     @SerializedName("channel_id") private String channelId;
     private String command;
     private String token;
@@ -70,11 +70,11 @@ public class CommandPollCreatePayload {
         return this;
     }
 
-    public boolean isText() {
+    public String isText() {
         return text;
     }
 
-    public CommandPollCreatePayload setText(boolean text) {
+    public CommandPollCreatePayload setText(String text) {
         this.text = text;
         return this;
     }
