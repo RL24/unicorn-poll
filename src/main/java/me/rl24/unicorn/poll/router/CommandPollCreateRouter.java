@@ -38,6 +38,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
                     .setPayload(String.format("token=%s&user=%s", getSlackToken(), paramMap.getFirst("user_id")), true);
             UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
+            LOGGER.info(String.format("User creating poll: %s", GSON.toJson(usersInfoResponsePayload)));
 
             View view = new View()
                     .setType("modal")
