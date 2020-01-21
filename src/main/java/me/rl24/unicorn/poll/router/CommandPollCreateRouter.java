@@ -5,7 +5,6 @@ import me.rl24.unicorn.poll.payload.UsersInfoResponsePayload;
 import me.rl24.unicorn.poll.payload.ViewsOpenRequestPayload;
 import me.rl24.unicorn.poll.payload.ViewsOpenResponsePayload;
 import me.rl24.unicorn.poll.payload.bean.Block;
-import me.rl24.unicorn.poll.payload.bean.Element;
 import me.rl24.unicorn.poll.payload.bean.Text;
 import me.rl24.unicorn.poll.payload.bean.View;
 import me.rl24.unicorn.poll.util.EnvironmentHelper;
@@ -49,10 +48,8 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
             View view = new View()
                     .setType("modal")
                     .setCallbackId("test-callback-id")
-                    .setTitle(new Text()
-                            .setType("plain_text")
-                            .setText("Create a Poll")
-                            .setEmoji(true));
+                    .setTitle(new Text().setType("plain_text").setText("Create a Poll"))
+                    .setBlocks(new Block[0]);
 //                    .setSubmit(new Text()
 //                            .setType("plain_text")
 //                            .setText("Submit")
