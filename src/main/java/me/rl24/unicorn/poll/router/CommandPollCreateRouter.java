@@ -45,7 +45,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setPayloadAsParameters(true);
 
             UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
-            LOGGER.info(String.format("User creating poll: %s", usersInfoResponsePayload.getError()));
+            LOGGER.info(String.format("User creating poll: %s", usersInfoResponsePayload.getUser()));
 
             View view = new View()
                     .setType("modal")
@@ -92,7 +92,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setPayload(viewsOpenRequestPayload);
             ViewsOpenResponsePayload openResponsePayload = viewsOpenRequest.sendRequest(ViewsOpenResponsePayload.class);
         } catch (IOException | URISyntaxException | NullPointerException e) {
-            LOGGER.severe(e.getMessage());
+            e.printStackTrace();
         }
         return "";
     }

@@ -70,7 +70,6 @@ public class HttpRequest implements GsonHelper {
         HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
         if (payload != null) {
             connection.setDoOutput(true);
-
             sendResponse(connection.getOutputStream());
         }
 
