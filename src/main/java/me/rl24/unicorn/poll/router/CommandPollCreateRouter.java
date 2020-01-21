@@ -24,30 +24,30 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
     private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
 
     @PostMapping(value = "/upoll/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String onCreate(@RequestBody CommandPollCreatePayload paramMap) {
+    public String onCreate(@RequestBody Map<String, String> paramMap) {
         LOGGER.info("Received request at /upoll/create");
         LOGGER.info(String.format("Request payload: %s", GSON.toJson(paramMap)));
-//        try {
-//            View view = new View()
-//                    .setType("modal")
-//                    .setCallbackId("test-callback-id")
-//                    .setTitle(new Text().setType("plain_text").setText("This is my modals title"))
-//                    .setBlocks(new Block[0]);
-//
-//            CreatePollOpenRequestPayload payload = new CreatePollOpenRequestPayload()
-//                    .setTriggerId(requestPayload.getTriggerId())
-//                    .setView(view);
-//
-//            HttpRequest request = new HttpRequest()
-//                    .setUrl("https://slack.com/api/views.open")
-//                    .setMethod(RequestMethod.POST)
-//                    .setHeader(RequestHeader.CONTENT_TYPE, "application/json; charset=utf-8")
-//                    .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
-//                    .setPayload(payload);
-//            CreatePollOpenResponsePayload openResponsePayload = request.sendRequest(CreatePollOpenResponsePayload.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            View view = new View()
+                    .setType("modal")
+                    .setCallbackId("test-callback-id")
+                    .setTitle(new Text().setType("plain_text").setText("This is my modals title"))
+                    .setBlocks(new Block[0]);
+
+            CreatePollOpenRequestPayload payload = new CreatePollOpenRequestPayload()
+                    .setTriggerId(paramMap.get("trigger_id"))
+                    .setView(view);
+
+            HttpRequest request = new HttpRequest()
+                    .setUrl("https://slack.com/api/views.open")
+                    .setMethod(RequestMethod.POST)
+                    .setHeader(RequestHeader.CONTENT_TYPE, "application/json; charset=utf-8")
+                    .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
+                    .setPayload(payload);
+            CreatePollOpenResponsePayload openResponsePayload = request.sendRequest(CreatePollOpenResponsePayload.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return "";
     }
 }
