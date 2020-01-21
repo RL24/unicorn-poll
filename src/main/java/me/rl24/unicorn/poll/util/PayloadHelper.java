@@ -35,7 +35,7 @@ public class PayloadHelper implements GsonHelper {
             }
         }
 
-        LOGGER.info("JOB: " + job.getAsString());
+        LOGGER.info("JOB: " + job);
         return GSON.fromJson(job, cls);
     }
 
