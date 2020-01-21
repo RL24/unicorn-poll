@@ -4,17 +4,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class CommandPollCreatePayload {
 
-    @SerializedName("channel_name") private String channelName;
-    @SerializedName("user_id") private String userId;
-    @SerializedName("user_name") private String userName;
-    @SerializedName("trigger_id") private String triggerId;
-    @SerializedName("team_domain") private String teamDomain;
-    @SerializedName("team_id") private String teamId;
+    @SerializedName("channel_name")
+    private String channelName;
+    @SerializedName("user_id")
+    private String userId;
+    @SerializedName("user_name")
+    private String userName;
+    @SerializedName("trigger_id")
+    private String triggerId;
+    @SerializedName("team_domain")
+    private String teamDomain;
+    @SerializedName("team_id")
+    private String teamId;
     private String text;
-    @SerializedName("channel_id") private String channelId;
+    @SerializedName("channel_id")
+    private String channelId;
     private String command;
     private String token;
-    @SerializedName("response_url") private String responseUrl;
+    @SerializedName("response_url")
+    private String responseUrl;
 
     public String getChannelName() {
         return channelName;

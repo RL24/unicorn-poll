@@ -1,27 +1,36 @@
 package me.rl24.unicorn.poll.payload.bean;
 
 import com.google.gson.annotations.SerializedName;
+
 public class View {
 
-    private String id;
-    @SerializedName("team_id") private String teamId;
-    private String type;
+    private String id, type, hash;
     private Block[] blocks;
-    @SerializedName("private_metadata") private String privateMetadata;
-    @SerializedName("callback_id") private String callbackId;
     private State state;
-    private String hash;
-    private Text title;
-    @SerializedName("clear_on_close") private boolean clearOnClose;
-    @SerializedName("notify_on_close") private boolean notifyOnClose;
-    private Object close;
-    private Object submit;
-    @SerializedName("previous_view_id") private Object previousViewId;
-    @SerializedName("root_view_id") private Object rootViewId;
-    @SerializedName("app_id") private String appId;
-    @SerializedName("external_id") private String externalId;
-    @SerializedName("app_installed_team_id") private String appInstalledTeamId;
-    @SerializedName("bot_id") private String botId;
+    private Text title, close, submit;
+
+    @SerializedName("team_id")
+    private String teamId;
+    @SerializedName("private_metadata")
+    private String privateMetadata;
+    @SerializedName("callback_id")
+    private String callbackId;
+    @SerializedName("clear_on_close")
+    private boolean clearOnClose;
+    @SerializedName("notify_on_close")
+    private boolean notifyOnClose;
+    @SerializedName("previous_view_id")
+    private Object previousViewId;
+    @SerializedName("root_view_id")
+    private Object rootViewId;
+    @SerializedName("app_id")
+    private String appId;
+    @SerializedName("external_id")
+    private String externalId;
+    @SerializedName("app_installed_team_id")
+    private String appInstalledTeamId;
+    @SerializedName("bot_id")
+    private String botId;
 
     public String getId() {
         return id;
@@ -29,15 +38,6 @@ public class View {
 
     public View setId(String id) {
         this.id = id;
-        return this;
-    }
-
-    public String getTeamId() {
-        return teamId;
-    }
-
-    public View setTeamId(String teamId) {
-        this.teamId = teamId;
         return this;
     }
 
@@ -50,12 +50,66 @@ public class View {
         return this;
     }
 
+    public String getHash() {
+        return hash;
+    }
+
+    public View setHash(String hash) {
+        this.hash = hash;
+        return this;
+    }
+
     public Block[] getBlocks() {
         return blocks;
     }
 
     public View setBlocks(Block[] blocks) {
         this.blocks = blocks;
+        return this;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public View setState(State state) {
+        this.state = state;
+        return this;
+    }
+
+    public Text getTitle() {
+        return title;
+    }
+
+    public View setTitle(Text title) {
+        this.title = title;
+        return this;
+    }
+
+    public Text getClose() {
+        return close;
+    }
+
+    public View setClose(Text close) {
+        this.close = close;
+        return this;
+    }
+
+    public Text getSubmit() {
+        return submit;
+    }
+
+    public View setSubmit(Text submit) {
+        this.submit = submit;
+        return this;
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public View setTeamId(String teamId) {
+        this.teamId = teamId;
         return this;
     }
 
@@ -77,33 +131,6 @@ public class View {
         return this;
     }
 
-    public State getState() {
-        return state;
-    }
-
-    public View setState(State state) {
-        this.state = state;
-        return this;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public View setHash(String hash) {
-        this.hash = hash;
-        return this;
-    }
-
-    public Text getTitle() {
-        return title;
-    }
-
-    public View setTitle(Text title) {
-        this.title = title;
-        return this;
-    }
-
     public boolean isClearOnClose() {
         return clearOnClose;
     }
@@ -119,24 +146,6 @@ public class View {
 
     public View setNotifyOnClose(boolean notifyOnClose) {
         this.notifyOnClose = notifyOnClose;
-        return this;
-    }
-
-    public Object getClose() {
-        return close;
-    }
-
-    public View setClose(Object close) {
-        this.close = close;
-        return this;
-    }
-
-    public Object getSubmit() {
-        return submit;
-    }
-
-    public View setSubmit(Object submit) {
-        this.submit = submit;
         return this;
     }
 

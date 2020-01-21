@@ -2,9 +2,8 @@ package me.rl24.unicorn.poll.payload.bean;
 
 public class Text {
 
-    private String type;
-    private String text;
-    private String emoji;
+    private String type, text;
+    private boolean emoji;
 
     public String getType() {
         return type;
@@ -24,11 +23,11 @@ public class Text {
         return this;
     }
 
-    public String getEmoji() {
+    public boolean getEmoji() {
         return emoji;
     }
 
-    public Text setEmoji(String emoji) {
+    public Text setEmoji(boolean emoji) {
         this.emoji = emoji;
         return this;
     }

@@ -5,7 +5,8 @@ import me.rl24.unicorn.poll.payload.bean.View;
 
 public class CreatePollOpenRequestPayload {
 
-    @SerializedName("trigger_id") private String triggerId;
+    @SerializedName("trigger_id")
+    private String triggerId;
     private View view;
 
     public String getTriggerId() {
