@@ -5,9 +5,19 @@ import me.rl24.unicorn.poll.payload.bean.View;
 
 public class ViewsOpenRequestPayload {
 
+    private String token;
     @SerializedName("trigger_id")
     private String triggerId;
     private View view;
+
+    public String getToken() {
+        return token;
+    }
+
+    public ViewsOpenRequestPayload setToken(String token) {
+        this.token = token;
+        return this;
+    }
 
     public String getTriggerId() {
         return triggerId;

@@ -78,6 +78,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
 //                    });
 
             ViewsOpenRequestPayload viewsOpenRequestPayload = new ViewsOpenRequestPayload()
+                    .setToken(getSlackToken())
                     .setTriggerId(paramMap.getFirst("trigger_id"))
                     .setView(view);
 
