@@ -14,26 +14,22 @@ import me.rl24.unicorn.poll.util.PayloadHelper;
 import me.rl24.unicorn.poll.util.request.HttpRequest;
 import me.rl24.unicorn.poll.util.request.RequestHeader;
 import me.rl24.unicorn.poll.util.request.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
-@Router("/upoll/create")
-public class CommandPollCreateRouter implements HttpHandler, GsonHelper, EnvironmentHelper {
+@RestController
+public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
 
     private static final Logger LOGGER = Logger.getLogger(CommandPollCreateRouter.class.getSimpleName());
 
-    @Override
-    public void handle(HttpExchange httpExchange) {
+    @PostMapping("/upoll/create")
+    public String handle(CommandPollCreatePayload requestPayload) {
         LOGGER.info("Received request at /upoll/create");
+        LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));
         try {
-            CommandPollCreatePayload requestPayload = PayloadHelper.readPayload(httpExchange.getRequestBody(), CommandPollCreatePayload.class);
-            LOGGER.info(String.format("Request payload: %s", GSON.toJson(requestPayload)));
-
-            LOGGER.info("Sending 200 response");
-            httpExchange.sendResponseHeaders(200, 0);
-            new HttpRequest().sendResponse(httpExchange.getResponseBody());
-
             View view = new View()
                     .setType("modal")
                     .setCallbackId("test-callback-id")
@@ -54,5 +50,6 @@ public class CommandPollCreateRouter implements HttpHandler, GsonHelper, Environ
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "";
     }
 }
