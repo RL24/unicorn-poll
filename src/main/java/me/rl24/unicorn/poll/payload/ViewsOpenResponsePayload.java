@@ -6,6 +6,7 @@ public class ViewsOpenResponsePayload {
 
     private boolean ok;
     private View view;
+    private String error;
 
     public boolean isOk() {
         return ok;
@@ -22,6 +23,15 @@ public class ViewsOpenResponsePayload {
 
     public ViewsOpenResponsePayload setView(View view) {
         this.view = view;
+        return this;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public ViewsOpenResponsePayload setError(String error) {
+        this.error = error;
         return this;
     }
 }

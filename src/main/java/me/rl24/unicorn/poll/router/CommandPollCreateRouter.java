@@ -40,7 +40,6 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setUrl("https://slack.com/api/users.info")
                     .setMethod(RequestMethod.POST)
                     .setHeader(RequestHeader.CONTENT_TYPE, "application/x-www-form-urlencoded")
-                    .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
                     .setPayload(usersInfoRequestPayload, true);
 
             UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
