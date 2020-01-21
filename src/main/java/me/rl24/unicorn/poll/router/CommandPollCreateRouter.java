@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 @RestController
@@ -40,7 +41,8 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setUrl("https://slack.com/api/users.info")
                     .setMethod(RequestMethod.POST)
                     .setHeader(RequestHeader.CONTENT_TYPE, "application/x-www-form-urlencoded")
-                    .setPayload(usersInfoRequestPayload, true);
+                    .setPayload(usersInfoRequestPayload)
+                    .setPayloadAsParameters(true);
 
             UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
             LOGGER.info(String.format("User creating poll: %s", GSON.toJson(usersInfoResponsePayload)));
@@ -89,7 +91,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setHeader(RequestHeader.AUTHORIZATION, String.format("Bearer %s", getSlackToken()))
                     .setPayload(viewsOpenRequestPayload);
             ViewsOpenResponsePayload openResponsePayload = viewsOpenRequest.sendRequest(ViewsOpenResponsePayload.class);
-        } catch (IOException | IllegalAccessException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return "";

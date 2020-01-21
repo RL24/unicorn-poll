@@ -1,5 +1,6 @@
 package me.rl24.unicorn.poll.util.request;
 
+import com.google.gson.reflect.TypeToken;
 import me.rl24.unicorn.poll.util.GsonHelper;
 import me.rl24.unicorn.poll.util.PayloadHelper;
 import org.apache.logging.log4j.util.Strings;
@@ -8,35 +9,36 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.net.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class HttpRequest implements GsonHelper {
 
     private static final Logger LOGGER = Logger.getLogger(HttpRequest.class.getSimpleName());
 
-    private HttpURLConnection connection;
+    private String url;
     private RequestMethod requestMethod;
+    private Set<HeaderPair<RequestHeader, String>> headers = new HashSet<>();
     private String payload;
+    private boolean payloadAsParameters;
 
-    public HttpRequest setUrl(String url) throws IOException {
-        connection = (HttpURLConnection) new URL(url).openConnection();
+    public HttpRequest setUrl(String url) {
+        this.url = url;
         return this;
     }
 
-    public HttpRequest setMethod(RequestMethod requestMethod) throws ProtocolException {
+    public HttpRequest setMethod(RequestMethod requestMethod) {
         this.requestMethod = requestMethod;
-        if (connection != null) connection.setRequestMethod(requestMethod.name());
         return this;
     }
 
     public HttpRequest setHeader(RequestHeader key, String value) {
-        if (connection != null) connection.setRequestProperty(key.toString(), value);
+        headers.add(new HeaderPair<>(key, value));
         return this;
     }
 
@@ -45,27 +47,28 @@ public class HttpRequest implements GsonHelper {
         return this;
     }
 
-    public HttpRequest setPayload(Object obj) throws IllegalAccessException {
-        return setPayload(obj, false);
-    }
-
-    public HttpRequest setPayload(Object obj, boolean asParams) throws IllegalAccessException {
-        if (asParams) {
-            Set<String> params = new HashSet<>();
-            for (Field field : obj.getClass().getDeclaredFields()) {
-                boolean accessible = field.isAccessible();
-                field.setAccessible(true);
-                params.add(String.format("%s=%s", field.getName(), field.get(obj)));
-                field.setAccessible(accessible);
-            }
-            this.payload = Strings.join(params, '&');
-        } else this.payload = GSON.toJson(obj);
+    public HttpRequest setPayload(Object payload) {
+        this.payload = GSON.toJson(payload);
         return this;
     }
 
-    public <T> T sendRequest(Class<T> retType) throws IOException {
-        LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, connection.getURL(), payload));
+    public HttpRequest setPayloadAsParameters(boolean payloadAsParameters) {
+        this.payloadAsParameters = payloadAsParameters;
+        return this;
+    }
+
+    public <T> T sendRequest(Class<T> retType) throws IOException, URISyntaxException {
+        LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, url, payload));
+
+        Map<String, Object> map = GSON.fromJson(payload, new TypeToken<Map<String, Object>>(){}.getType());
+        String payloadQuery = map.entrySet().stream().map((entry) -> String.format("%s=%s", entry.getKey(), entry.getValue())).collect(Collectors.joining("&"));
+        URI uri = new URI(url);
+        if (payloadAsParameters)
+            uri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), uri.getQuery() == null ? payloadQuery : String.format("%s&%s", uri.getQuery(), payloadQuery), uri.getFragment());
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(uri.toString()).openConnection();
         if (payload != null) {
+            connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setDoOutput(true);
 
             sendResponse(connection.getOutputStream());
