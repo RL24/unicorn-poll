@@ -47,7 +47,7 @@ public class HttpRequest implements GsonHelper {
 
     public <T> T sendRequest(Class<T> retType) throws IOException {
         LOGGER.info(String.format("Sending %s request to %s, with payload %s", requestMethod, connection.getURL(), payload));
-        if (payload != null && connection.getDoOutput() && connection.getOutputStream() != null) {
+        if (payload != null && requestMethod != RequestMethod.GET) {
             connection.setDoOutput(true);
 
             sendResponse(connection.getOutputStream());
