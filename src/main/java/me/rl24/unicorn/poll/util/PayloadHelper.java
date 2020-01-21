@@ -19,23 +19,21 @@ public class PayloadHelper implements GsonHelper {
         String line;
         while ((line = reader.readLine()) != null)
             sb.append(line);
-
         String compiled = sb.toString();
-        LOGGER.info(compiled);
 
         JsonObject job = new JsonObject();
         if (!compiled.isEmpty()) {
             String[] parameters = compiled.split("&");
-            for (String parameter : parameters) {
-                String[] split = parameter.split("=");
-                if (split.length == 1)
-                    job.addProperty(split[0], true);
-                else if (split.length == 2)
-                    job.addProperty(split[0], URLDecoder.decode(split[1], "utf-8"));
-            }
+            if (parameters.length > 0)
+                for (String parameter : parameters) {
+                    String[] split = parameter.split("=");
+                    if (split.length == 1)
+                        job.addProperty(split[0], true);
+                    else if (split.length == 2)
+                        job.addProperty(split[0], URLDecoder.decode(split[1], "utf-8"));
+                }
+            else return GSON.fromJson(compiled, cls);
         }
-
-        LOGGER.info("JOB: " + job);
         return GSON.fromJson(job, cls);
     }
 
