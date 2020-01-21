@@ -45,7 +45,6 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                     .setPayloadAsParameters(true);
 
             UsersInfoResponsePayload usersInfoResponsePayload = usersInfoRequest.sendRequest(UsersInfoResponsePayload.class);
-            LOGGER.info(String.format("User creating poll: %s", usersInfoResponsePayload.getUser()));
 
             View view = new View()
                     .setType("modal")
@@ -66,7 +65,7 @@ public class CommandPollCreateRouter implements GsonHelper, EnvironmentHelper {
                                     .setType("section")
                                     .setText(new Text()
                                             .setType("plain_text")
-                                            .setText(String.format(":wave: Hey %s!\n\nFill out the following form to create a Poll", usersInfoResponsePayload.getUser().getRealName()))
+                                            .setText(":wave: Hey Bob!\n\nFill out the following form to create a Poll")
                                             .setEmoji(true)),
                             new Block().setType("divider"),
                             new Block()
