@@ -5,7 +5,6 @@ public class Block {
     private String type;
     private Text text, label;
     private Element element;
-    private boolean optional;
 
     public String getType() {
         return type;
@@ -40,15 +39,6 @@ public class Block {
 
     public Block setElement(Element element) {
         this.element = element;
-        return this;
-    }
-
-    public boolean isOptional() {
-        return optional;
-    }
-
-    public Block setOptional(boolean optional) {
-        this.optional = optional;
         return this;
     }
 }
